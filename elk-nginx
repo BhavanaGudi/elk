@@ -1,33 +1,12 @@
 ###PROXY:ELK###
-   set $upstream_sensu http://elk.ethan.svc.cluster.local:5601;
-   location  /kibana {
-        rewrite /kibana(.*) /$1  break;
-        proxy_pass         http://elk:5601;
-        proxy_redirect     off;
-        proxy_set_header   Host $host;
+    set $upstream_elk http://elk.ethan.svc.cluster.local:5601;
+    location ~ (/app/kibana|/bundles/|/kibana4|/status|/plugins) {
+        proxy_pass $upstream_elk;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        rewrite /kibana4/(.*)$ /$1 break;
     }
-    location /kibana/status {
-        proxy_pass         http://elk:5601/status;
-    }
-    location /app/kibana/status {
-        proxy_pass         http://elk:5601/status;
-    }
-    location ~* /app/kibana.* {
-        proxy_pass         http://elk:5601;
-    }
-    location ~* /bundles/.* {
-        proxy_pass         http://elk:5601;
-    }
-    location = /status {
-        proxy_pass         http://elk:5601;
-    }
-     location ~ /plugins/kibana/.* {
-        proxy_pass         http://elk:5601;
-    }
-    location = /api/status {
-        proxy_pass         http://elk:5601;
-    }
-    location ~* /elasticsearch/.* {
-        proxy_pass         http://elk:5601;
-    }
+
 ###PROXY:ELK###
