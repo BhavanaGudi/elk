@@ -1,7 +1,7 @@
 ###PROXY:ELK###
-   set $upstream_kibana http://kibana.ethan.svc.cluster.local:5601;	
-   location ~ (/app/kibana|/app/timelion|/bundles|/es_admin|/plugins/kibana|/api|/ui|/elasticsearch|/plugins) {
-        rewrite /kibana/(.*)$ /$1 break;
+   set $upstream_kibana http://kibana.ethan.svc.cluster.local:5601;
+   location ~ (/app/kibana|/app/timelion|/bundles|/es_admin|/plugins/kibana|/api|/ui|/elasticsearch) {
+        rewrite /app/kibana/(.*)$ /$1 break;
         proxy_pass $upstream_kibana;
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;

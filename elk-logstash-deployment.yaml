@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: logstash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash-oss:6.1.1
+          ports:
+            - containerPort: 9600
+            - containerPort: 5044
+          volumeMounts:
+            - name: logstash-conf
+              mountPath: /usr/share/logstash/pipeline/logstash.conf
+              subPath: logstash.conf
+      volumes:
+        - name: logstash-conf
+          configMap: 
+            name: logstash.conf
+      
