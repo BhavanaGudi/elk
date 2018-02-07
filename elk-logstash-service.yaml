@@ -10,6 +10,10 @@ spec:
   - name: "logstash-api"
     port: 9600
     targetPort: 9600
+  - name: "logstash-http"
+    port: 31311
+    targetPort: 31311
+
   selector:
     app: logstash
   type: ClusterIP

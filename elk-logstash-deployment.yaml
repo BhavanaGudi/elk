@@ -15,6 +15,7 @@ spec:
           ports:
             - containerPort: 9600
             - containerPort: 5044
+            - containerPort: 31311
           volumeMounts:
             - name: logstash-conf
               mountPath: /usr/share/logstash/pipeline/logstash.conf
