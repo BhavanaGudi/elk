@@ -17,8 +17,16 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.1
+        image: projectethan007/elk:v1.0.4
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9200
         - containerPort: 9300
+        volumeMounts:
+          - name: elasticsearch-data
+            mountPath: /usr/share/elasticsearch/data
+      volumes:
+      - name: elasticsearch-data
+        persistentVolumeClaim:
+          claimName: elasticsearch-data
+
